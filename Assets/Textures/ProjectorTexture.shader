@@ -1,4 +1,7 @@
-﻿Shader "Projector/Texture" {
+﻿// Upgrade NOTE: replaced '_Projector' with 'unity_Projector'
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Projector/Texture" {
 	Properties {		
 		_ProjectedTexture ("Cookie", 2D) = "" {}		
 	}
@@ -23,7 +26,7 @@
 			#include "UnityCG.cginc"
 			
 
-			float4x4  _Projector;	
+			float4x4  unity_Projector;	
 			sampler2D _ProjectedTexture;		
 
 
@@ -36,8 +39,8 @@
 			v2f vert (float4 vertex : POSITION)
 			{
 				v2f o;
-				o.pos = mul (UNITY_MATRIX_MVP, vertex);
-				o.uvProjected = mul (_Projector, vertex);										
+				o.pos = UnityObjectToClipPos (vertex);
+				o.uvProjected = mul (unity_Projector, vertex);										
 				return o;
 			}
 						
